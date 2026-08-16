@@ -1,0 +1,84 @@
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Jupyter
+# =========================
+
+.ipynb_checkpoints/
+
+# =========================
+# Environment / secrets
+# =========================
+
+.env
+.env.*
+!.env.example
+
+# =========================
+# IDEs
+# =========================
+
+.vscode/
+.idea/
+
+# =========================
+# OS
+# =========================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Logs
+# =========================
+
+*.log
+
+# =========================
+# Data
+# =========================
+
+# Raw and processed datasets
+data/raw/
+data/processed/
+
+# Temporary data
+tmp/
+temp/
+
+# =========================
+# Machine Learning
+# =========================
+
+# Generated model files
+models/*.pkl
+models/*.joblib
+models/*.pickle
+
+# =========================
+# Python tooling
+# =========================
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
