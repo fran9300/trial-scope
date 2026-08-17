@@ -33,6 +33,84 @@ engineering, SQL analytics, data visualization, and machine learning.
 - NLP
 - Git
 
+---
+
+## Project Structure
+
+The project is developed progressively, from data exploration
+and modeling to analytics and data science.
+
+### 1. Data Exploration
+
+Initial exploration of the ClinicalTrials.gov API and its
+clinical trial data structure.
+
+The exploration notebook documents:
+
+- API interaction and data retrieval
+- Clinical trial JSON structure
+- Study metadata
+- Study design and phases
+- Sponsors and interventions
+- Eligibility criteria
+- Study locations
+- Primary and secondary outcomes
+
+**[Exploration Notebook](notebooks/01_api_exploration.ipynb)**
+
+---
+
+### 2. Data Dictionary
+
+A structured data dictionary documenting the fields selected
+for the analytical data model, their meaning, source, and
+intended use.
+
+**[Data Dictionary](docs/data_dictionary.md)**
+
+---
+
+### 3. Data Model
+
+The project uses a relational data model designed to transform
+the hierarchical ClinicalTrials.gov data into an analytical
+PostgreSQL database.
+
+The model includes clinical trials, study types, phases,
+conditions, sponsors, interventions, study arms, eligibility,
+locations, and outcomes.
+
+#### Editable ERD
+
+The database model is defined using DBML, allowing the model
+to be modified and regenerated as the project evolves.
+
+**[ERD Source (DBML)](docs/erd.dbml)**
+
+#### ERD Diagram
+
+![TrialScope Entity Relationship Diagram](docs/erd.png)
+
+---
+
 ## Project Status
 
 Currently in development.
+
+### Completed
+
+- [x] Initial ClinicalTrials.gov API exploration
+- [x] Data dictionary
+- [x] Relational data model
+- [x] Entity Relationship Diagram
+
+### Next
+
+- [ ] PostgreSQL database implementation
+- [ ] Data ingestion pipeline
+- [ ] Data cleaning and transformation
+- [ ] SQL analytical queries
+- [ ] Power BI dashboard
+- [ ] Statistical analysis
+- [ ] Machine learning
+- [ ] NLP analysis
