@@ -1,0 +1,233 @@
+Project TrialScope {
+  database_type: "PostgreSQL"
+
+  Note: '''
+  TRIALS is the central entity of the model.
+
+  Relationship types:
+  1:N = One-to-many
+  N:M = Many-to-many
+  1:1 = One-to-one
+
+  Bridge tables are used to resolve N:M relationships.
+  '''
+}
+
+
+Table study_types {
+  study_type_id int [pk, increment]
+  name varchar(50) [unique, not null]
+
+  Note: '''
+  Lookup table.
+
+  Defines the type of clinical study.
+  Example: INTERVENTIONAL, OBSERVATIONAL.
+  '''
+}
+
+
+Table trials {
+  nct_id varchar(20) [pk]
+  study_type_id int [not null, ref: > study_types.study_type_id]
+  brief_title text
+  official_title text
+  status varchar(30)
+  start_date date
+  start_date_type varchar(30)
+  primary_completion_date date
+  primary_completion_date_type varchar(30)
+  completion_date date
+  completion_date_type varchar(30)
+  enrollment_count int
+  enrollment_type varchar(30)
+
+  Note: '''
+  Central entity.
+
+  One row represents one clinical trial.
+  NCT ID is the natural identifier provided by ClinicalTrials.gov.
+  '''
+}
+
+
+Table phases {
+  phase_id int [pk, increment]
+  name varchar(50) [unique, not null]
+
+  Note: '''
+  Lookup table containing clinical trial phases.
+  '''
+}
+
+
+Table trial_phases {
+  nct_id varchar(20) [pk, ref: > trials.nct_id]
+  phase_id int [pk, ref: > phases.phase_id]
+
+  Note: '''
+  Bridge table.
+
+  Resolves:
+  TRIALS N:M PHASES
+
+  Composite primary key prevents duplicate
+  trial-phase relationships.
+  '''
+}
+
+
+Table conditions {
+  condition_id int [pk, increment]
+  name varchar(255) [unique, not null]
+
+  Note: '''
+  Lookup/entity table for medical conditions
+  investigated in clinical trials.
+  '''
+}
+
+
+Table trial_conditions {
+  nct_id varchar(20) [pk, ref: > trials.nct_id]
+  condition_id int [pk, ref: > conditions.condition_id]
+
+  Note: '''
+  Bridge table.
+
+  Resolves:
+  TRIALS N:M CONDITIONS
+
+  A trial may investigate multiple conditions,
+  and a condition may appear in many trials.
+  '''
+}
+
+
+Table sponsors {
+  sponsor_id int [pk, increment]
+  name varchar(255) [unique, not null]
+  sponsor_class varchar(50)
+
+  Note: '''
+  Stores organizations sponsoring or collaborating
+  on clinical trials.
+  '''
+}
+
+
+Table trial_sponsors {
+  nct_id varchar(20) [pk, ref: > trials.nct_id]
+  sponsor_id int [pk, ref: > sponsors.sponsor_id]
+  role varchar(30)
+
+  Note: '''
+  Bridge table with relationship attribute: role.
+
+  Resolves:
+  TRIALS N:M SPONSORS
+
+  Example roles:
+  LEAD
+  COLLABORATOR
+  '''
+}
+
+
+Table interventions {
+  intervention_id int [pk, increment]
+  nct_id varchar(20) [not null, ref: > trials.nct_id]
+  name varchar(255)
+  type varchar(50)
+  description text
+
+  Note: '''
+  Intervention associated with a specific trial.
+
+  Kept as a trial-level entity in the current model.
+  '''
+}
+
+
+Table arm_groups {
+  arm_group_id int [pk, increment]
+  nct_id varchar(20) [not null, ref: > trials.nct_id]
+  label varchar(255)
+  type varchar(50)
+  description text
+
+  Note: '''
+  Represents a study arm.
+
+  An arm describes what treatment or intervention
+  a participant group receives.
+  '''
+}
+
+
+Table arm_group_interventions {
+  arm_group_id int [pk, ref: > arm_groups.arm_group_id]
+  intervention_id int [pk, ref: > interventions.intervention_id]
+
+  Note: '''
+  Bridge table.
+
+  Resolves:
+  ARM_GROUPS N:M INTERVENTIONS
+
+  An arm may contain multiple interventions,
+  and an intervention may appear in multiple arms.
+  '''
+}
+
+
+Table eligibility {
+  nct_id varchar(20) [pk, ref: > trials.nct_id]
+  minimum_age numeric
+  maximum_age numeric
+  age_unit varchar(20)
+  sex varchar(20)
+  healthy_volunteers boolean
+  eligibility_criteria text
+
+  Note: '''
+  One-to-one extension of TRIALS.
+
+  Contains structured eligibility attributes
+  plus the original eligibility criteria text.
+  '''
+}
+
+
+Table locations {
+  location_id int [pk, increment]
+  nct_id varchar(20) [not null, ref: > trials.nct_id]
+  facility varchar(255)
+  city varchar(100)
+  state varchar(100)
+  country varchar(100)
+  latitude decimal(9,6)
+  longitude decimal(9,6)
+
+  Note: '''
+  Trial locations.
+
+  One trial can have multiple study locations.
+  '''
+}
+
+
+Table outcomes {
+  outcome_id int [pk, increment]
+  nct_id varchar(20) [not null, ref: > trials.nct_id]
+  outcome_type varchar(20)
+  measure text
+  description text
+  time_frame text
+
+  Note: '''
+  Clinical trial outcomes.
+
+  A trial can define multiple primary and secondary outcomes.
+  '''
+}
