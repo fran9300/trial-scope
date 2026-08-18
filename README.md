@@ -91,6 +91,14 @@ to be modified and regenerated as the project evolves.
 
 ![TrialScope Entity Relationship Diagram](docs/erd.png)
 
+#### PostgreSQL Schema
+
+The relational database schema is implemented in PostgreSQL
+using primary keys, foreign keys, one-to-many relationships,
+many-to-many bridge tables, and a one-to-one eligibility relationship.
+
+**[PostgreSQL Schema](sql/schema.sql)**
+
 ---
 
 ## Project Status
@@ -103,10 +111,10 @@ Currently in development.
 - [x] Data dictionary
 - [x] Relational data model
 - [x] Entity Relationship Diagram
+- [x] PostgreSQL database schema
 
 ### Next
 
-- [ ] PostgreSQL database implementation
 - [ ] Data ingestion pipeline
 - [ ] Data cleaning and transformation
 - [ ] SQL analytical queries
