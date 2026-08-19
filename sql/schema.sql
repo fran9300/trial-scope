@@ -9,12 +9,19 @@ CREATE TABLE trials (
     brief_title TEXT,
     official_title TEXT,
     status VARCHAR(30),
+
     start_date DATE,
     start_date_type VARCHAR(30),
+    start_date_precision VARCHAR(20),
+
     primary_completion_date DATE,
     primary_completion_date_type VARCHAR(30),
+    primary_completion_date_precision VARCHAR(20),
+
     completion_date DATE,
     completion_date_type VARCHAR(30),
+    completion_date_precision VARCHAR(20),
+
     enrollment_count INT,
     enrollment_type VARCHAR(30),
 
@@ -116,8 +123,9 @@ CREATE TABLE arm_group_interventions (
 CREATE TABLE eligibility (
     nct_id VARCHAR(20) PRIMARY KEY,
     minimum_age NUMERIC,
+    minimum_age_unit VARCHAR(20),
     maximum_age NUMERIC,
-    age_unit VARCHAR(20),
+    maximum_age_unit VARCHAR(20),
     sex VARCHAR(20),
     healthy_volunteers BOOLEAN,
     eligibility_criteria TEXT,
@@ -126,12 +134,31 @@ CREATE TABLE eligibility (
         REFERENCES trials(nct_id)
 );
 
+CREATE TABLE standard_ages (
+    standard_age_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE trial_standard_ages (
+    nct_id VARCHAR(20),
+    standard_age_id INT,
+
+    PRIMARY KEY (nct_id, standard_age_id),
+
+    FOREIGN KEY (nct_id)
+        REFERENCES trials(nct_id),
+
+    FOREIGN KEY (standard_age_id)
+        REFERENCES standard_ages(standard_age_id)
+);
+
 CREATE TABLE locations (
     location_id SERIAL PRIMARY KEY,
     nct_id VARCHAR(20) NOT NULL,
     facility VARCHAR(255),
     city VARCHAR(100),
     state VARCHAR(100),
+    zip VARCHAR(20),
     country VARCHAR(100),
     latitude DECIMAL(9,6),
     longitude DECIMAL(9,6),

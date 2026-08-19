@@ -37,8 +37,9 @@ engineering, SQL analytics, data visualization, and machine learning.
 
 ## Project Structure
 
-The project is developed progressively, from data exploration
-and modeling to analytics and data science.
+The project is developed progressively, from API exploration and
+data validation to relational modeling, data ingestion, analytics,
+and data science.
 
 ### 1. Data Exploration
 
@@ -60,7 +61,34 @@ The exploration notebook documents:
 
 ---
 
-### 2. Data Dictionary
+### 2. Data Validation
+
+Validation of the ClinicalTrials.gov data structure and the
+observations identified during the exploration phase.
+
+The validation notebook verifies:
+
+- API module presence and optional modules
+- Field presence and missing values
+- Categorical values
+- Partial date precision and date types
+- Enrollment information
+- Age values and age units
+- Standardized age categories
+- Relationship cardinalities
+- Sponsors and collaborators
+- Locations and outcomes
+- Arm groups and interventions
+
+The validation results are used to confirm the relational data model
+and define how the ingestion process should handle missing,
+optional, and non-applicable values.
+
+**[Validation Notebook](notebooks/02_data_validation.ipynb)**
+
+---
+
+### 3. Data Dictionary
 
 A structured data dictionary documenting the fields selected
 for the analytical data model, their meaning, source, and
@@ -70,7 +98,7 @@ intended use.
 
 ---
 
-### 3. Data Model
+### 4. Data Model
 
 The project uses a relational data model designed to transform
 the hierarchical ClinicalTrials.gov data into an analytical
@@ -78,12 +106,12 @@ PostgreSQL database.
 
 The model includes clinical trials, study types, phases,
 conditions, sponsors, interventions, study arms, eligibility,
-locations, and outcomes.
+standardized age categories, locations, and outcomes.
 
 #### Editable ERD
 
-The database model is defined using DBML, allowing the model
-to be modified and regenerated as the project evolves.
+The database model is defined using DBML, allowing the model to be
+modified and regenerated as the project evolves.
 
 **[ERD Source (DBML)](docs/erd.dbml)**
 
@@ -108,6 +136,7 @@ Currently in development.
 ### Completed
 
 - [x] Initial ClinicalTrials.gov API exploration
+- [x] Data validation
 - [x] Data dictionary
 - [x] Relational data model
 - [x] Entity Relationship Diagram
